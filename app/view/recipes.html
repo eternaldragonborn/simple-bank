@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>simple-bank recipes</title>
+  <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+</head>
+<body>
+  <style>
+    #body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #recipe-table {
+      width: 70vw;
+      border: 1px solid black;
+    }
+    #recipe-table td {
+      text-align: center;
+    }
+  </style>
+  <div id="body">
+    <table id="recipe-table">
+      <thead>
+        <tr>
+          <th>動作</th>
+          <th>金額</th>
+          <th>餘額</th>
+          <th>時間</th>
+        </tr>
+      </thead>
+      <tbody id="recipe-table-body"></tbody>
+    </table>
+
+    <button onclick="location.pathname = '/account'">返回</button>
+  </div>
+
+  <script>
+    const getTBody = () => document.getElementById('recipe-table-body');
+
+    axios.get('/api/account/recipes', {
+      headers: {
+        'Authorization': 'bearer ' + localStorage.getItem('token'),
+      }
+    }).then(res => {
+      /**
+       * @type {{amount: number; balance: number; createdAt: string}[]}
+       */
+      const recipes = res.data;
+      const tbody = getTBody();
+      const newTd = (content) => {
+        const td = document.createElement('td');
+        td.textContent = content;
+        return td;
+      };
+
+      recipes.forEach(record => {
+        const row = document.createElement('tr');
+        row.appendChild(newTd(record.amount < 0 ? '提款' : '存款'));
+        row.appendChild(newTd(record.amount));
+        row.appendChild(newTd(record.balance));
+
+        // date
+        const transaction_time = new Date(record.createdAt);
+        row.appendChild(newTd(transaction_time.toLocaleString()));
+        tbody.appendChild(row);
+      })
+      console.table(recipes);
+    }).catch(err => {
+      console.log(err);
+    })
+  </script>
+</body>
+</html>

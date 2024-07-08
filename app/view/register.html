@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>register</title>
+</head>
+<body>
+  <div id="register-page">
+    <form name="register_form" id="register-form" action="post">
+      <label for="username-input">
+        <span>帳號：</span>
+        <input id="username-input" name="username" required />
+      </label>
+
+      <label for="password-input">
+        <span>密碼：</span>
+        <input id="password-input" name="password" type="password" required />
+      </label>
+
+      <label for="re-password-input">
+        <span>確認密碼：</span>
+        <input id="re-password-input" name="re-password" type="password" required />
+      </label>
+
+      <button id="register-form-submit">註冊</button>
+      <button type="button" onclick="location.pathname = '/'">返回登入</button>
+    </form>
+
+    <style>
+      #register-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+
+    <script>
+      async function register(e) {
+        e.preventDefault();
+        /**
+         * @type {HTMLFormElement}
+         */
+        const form = document.forms['register-form'];
+        const formData = {
+          username: form.elements.username.value,
+          password: form.elements.password.value,
+          're-password': form.elements['re-password'].value,
+        }
+
+        console.log(JSON.stringify(formData));
+      }
+
+      document.getElementById('register-form-submit').addEventListener('onclick', register);
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>simple-bank login</title>
+  <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+</head>
+<body>
+  <form id="login-form" name="loginForm">
+    <label for="username-input">
+      <span>帳號：</span>
+      <input id="username-input" name="username" required />
+    </label>
+
+    <label for="password-input">
+      <span>密碼：</span>
+      <input id="password-input" name="password" type="password" required />
+    </label>
+
+    <div id="helper-message"></div>
+
+    <button type="button" onclick="login()">登入</button>
+    <button type="button" onclick="location.pathname = 'register'">註冊</button>
+  </form>
+
+  <script>
+    localStorage.removeItem('token');
+    /**
+     * @param {Event} e
+     */
+    function login() {
+      /**
+       * @type {HTMLFormElement}
+       */
+      const form = document.forms['loginForm'];
+      const formData = {
+        username: form.elements.username.value,
+        password: form.elements.password.value,
+      }
+      // return;
+      axios.post('/api/account/login', formData)
+        .then(res => {
+          console.log('登入成功');
+          localStorage.setItem('token', res.data.token);
+          location.pathname = '/account';
+        })
+        .catch(err => {
+          let message;
+          if(err.name === 'AxiosError') {
+            message = err.response.data.msg;
+          } else {
+            message = '登入失敗';
+            console.log(err);
+          }
+
+          document.getElementById('helper-message').innerText = message;
+        });
+    }
+  </script>
+
+  <style>
+    #login-form {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #helper-message {
+      font-size: x-small;
+      color: red;
+    }
+  </style>
+</body>
+</html>
