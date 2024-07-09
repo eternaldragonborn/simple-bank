@@ -19,6 +19,14 @@
       "logQueryError": "/Users/fafnir/Documents/simple-bank/node_modules/egg-orm/config/config.default.js"
     }
   },
+  "redis": {
+    "socket": {
+      "host": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
+      "port": "/Users/fafnir/Documents/simple-bank/config/config.default.js"
+    },
+    "username": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
+    "password": "/Users/fafnir/Documents/simple-bank/config/config.default.js"
+  },
   "security": {
     "csrf": {
       "enable": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
@@ -239,7 +247,8 @@
       "egg-view-ejs": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
       "egg-view-nunjucks": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
       "jsonwebtoken": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
-      "mysql2": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js"
+      "mysql2": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
+      "redis": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js"
     },
     "devDependencies": {
       "egg-bin": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",

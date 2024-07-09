@@ -19,6 +19,14 @@
       "logQueryError": "/Users/fafnir/Documents/simple-bank/node_modules/egg-orm/config/config.default.js"
     }
   },
+  "redis": {
+    "socket": {
+      "host": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
+      "port": "/Users/fafnir/Documents/simple-bank/config/config.default.js"
+    },
+    "username": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
+    "password": "/Users/fafnir/Documents/simple-bank/config/config.default.js"
+  },
   "security": {
     "csrf": {
       "enable": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
@@ -97,16 +105,6 @@
     "allowDebugAtProd": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
     "enablePerformanceTimer": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
     "enableFastContextLogger": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js"
-  },
-  "view": {
-    "mapping": {
-      ".nj": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
-      ".ejs": "/Users/fafnir/Documents/simple-bank/config/config.default.js"
-    },
-    "defaultViewEngine": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
-    "root": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js",
-    "cache": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.local.js",
-    "defaultExtension": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js"
   },
   "session": {
     "maxAge": "/Users/fafnir/Documents/simple-bank/node_modules/egg-session/config/config.default.js",
@@ -196,6 +194,13 @@
     "buffer": "/Users/fafnir/Documents/simple-bank/node_modules/egg-static/config/config.default.js",
     "maxFiles": "/Users/fafnir/Documents/simple-bank/node_modules/egg-static/config/config.default.js"
   },
+  "view": {
+    "root": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js",
+    "cache": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.local.js",
+    "defaultExtension": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js",
+    "defaultViewEngine": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js",
+    "mapping": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js"
+  },
   "validate": "/Users/fafnir/Documents/simple-bank/node_modules/egg-validate/config/config.default.js",
   "nunjucks": {
     "autoescape": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view-nunjucks/config/config.default.js",
@@ -239,7 +244,8 @@
       "egg-view-ejs": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
       "egg-view-nunjucks": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
       "jsonwebtoken": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
-      "mysql2": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js"
+      "mysql2": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
+      "redis": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js"
     },
     "devDependencies": {
       "egg-bin": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",

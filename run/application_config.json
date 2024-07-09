@@ -201,11 +201,8 @@
       ],
       "cache": false,
       "defaultExtension": ".html",
-      "defaultViewEngine": "nunjucks",
-      "mapping": {
-        ".nj": "nunjucks",
-        ".ejs": "ejs"
-      }
+      "defaultViewEngine": "",
+      "mapping": {}
     },
     "orm": {
       "client": "mysql2",
@@ -269,7 +266,8 @@
         "egg-view-ejs": "^3.0.0",
         "egg-view-nunjucks": "^2.3.0",
         "jsonwebtoken": "^9.0.2",
-        "mysql2": "^3.10.2"
+        "mysql2": "^3.10.2",
+        "redis": "^4.6.15"
       },
       "devDependencies": {
         "egg-bin": "6",
@@ -408,6 +406,17 @@
     },
     "onClientError": null,
     "middleware": [],
+    "redis": {
+      "socket": {
+        "host": "localhost",
+        "port": 6379,
+        "connectTimeout": 5000,
+        "keepAlive": 5000,
+        "noDelay": true
+      },
+      "username": "",
+      "password": "<String len: 0>"
+    },
     "coreMiddlewares": "~config~coreMiddleware",
     "appMiddlewares": "~config~middleware",
     "appMiddleware": "~config~middleware"
@@ -647,7 +656,8 @@
         "egg-view-ejs": "^3.0.0",
         "egg-view-nunjucks": "^2.3.0",
         "jsonwebtoken": "^9.0.2",
-        "mysql2": "^3.10.2"
+        "mysql2": "^3.10.2",
+        "redis": "^4.6.15"
       },
       "devDependencies": {
         "egg-bin": "6",
