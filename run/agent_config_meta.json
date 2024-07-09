@@ -106,16 +106,6 @@
     "enablePerformanceTimer": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js",
     "enableFastContextLogger": "/Users/fafnir/Documents/simple-bank/node_modules/egg/config/config.default.js"
   },
-  "view": {
-    "mapping": {
-      ".nj": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
-      ".ejs": "/Users/fafnir/Documents/simple-bank/config/config.default.js"
-    },
-    "defaultViewEngine": "/Users/fafnir/Documents/simple-bank/config/config.default.js",
-    "root": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js",
-    "cache": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.local.js",
-    "defaultExtension": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js"
-  },
   "session": {
     "maxAge": "/Users/fafnir/Documents/simple-bank/node_modules/egg-session/config/config.default.js",
     "key": "/Users/fafnir/Documents/simple-bank/node_modules/egg-session/config/config.default.js",
@@ -203,6 +193,13 @@
     "preload": "/Users/fafnir/Documents/simple-bank/node_modules/egg-static/config/config.default.js",
     "buffer": "/Users/fafnir/Documents/simple-bank/node_modules/egg-static/config/config.default.js",
     "maxFiles": "/Users/fafnir/Documents/simple-bank/node_modules/egg-static/config/config.default.js"
+  },
+  "view": {
+    "root": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js",
+    "cache": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.local.js",
+    "defaultExtension": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js",
+    "defaultViewEngine": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js",
+    "mapping": "/Users/fafnir/Documents/simple-bank/node_modules/egg-view/config/config.default.js"
   },
   "validate": "/Users/fafnir/Documents/simple-bank/node_modules/egg-validate/config/config.default.js",
   "nunjucks": {

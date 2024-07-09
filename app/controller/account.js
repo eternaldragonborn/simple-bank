@@ -81,19 +81,14 @@ module.exports = class AccountController extends Controller {
     ctx.body = recipes;
   }
 
-  async balance() {
+  async getBalance() {
     const { ctx } = this;
 
-    try {
-      try {
-        const user = await ctx.service.user.find(ctx.userName);
-        ctx.body = { balance: user.balance, username: user.username };
-      } catch (err) {
-        ctx.throwError(400, '未知的使用者', userPayload);
-      }
-    } catch (err) {
-      ctx.throwError(403, '無效的token', ctx.request.userToken);
-      return;
+    const balance = await ctx.service.account.getBalance(ctx.userName);
+    if (balance === null) {
+      ctx.throwError(404, '未知的使用者', ctx.userName);
+    } else {
+      ctx.body = { username: ctx.userName, balance };
     }
   }
 }

@@ -51,9 +51,28 @@ class AccountService extends Service {
     this.ctx.body = { balance: user.balance }
   }
 
-  async getBalance() {
-    const user = await this.ctx.service.user.find(this.ctx.username);
-    return user.balance;
+  /**
+   * @param {string} username
+   * @return {Promise<number | null>} user balance or null, if not found
+  */
+  async getBalance(username) {
+    let balance = await this.app.redis.get(username);
+
+    // if user not cached
+    if (!balance) {
+      // load user from mysql
+      const user = await this.service.user.find(username);
+      if (!user) { // user not found
+        return null;
+      }
+
+      balance = user.balance;
+      await this.app.redis.set(username, balance);
+    } else {
+      balance = Number(balance);
+    }
+
+    return balance;
   }
 }
 

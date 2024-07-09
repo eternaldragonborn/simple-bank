@@ -166,11 +166,8 @@
       "root": "/Users/fafnir/Documents/simple-bank/app/view",
       "cache": false,
       "defaultExtension": ".html",
-      "defaultViewEngine": "nunjucks",
-      "mapping": {
-        ".nj": "nunjucks",
-        ".ejs": "ejs"
-      }
+      "defaultViewEngine": "",
+      "mapping": {}
     },
     "orm": {
       "client": "mysql2",
