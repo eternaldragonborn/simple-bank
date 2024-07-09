@@ -69,7 +69,7 @@ module.exports = class AccountController extends Controller {
     const user = await ctx.model.User.findOne({ username: ctx.userName });
 
     if (!user) {
-      ctx.throwError(403, '未知的使用者', userName);
+      ctx.throwError(403, '未知的使用者', ctx.userName);
       return;
     }
 
