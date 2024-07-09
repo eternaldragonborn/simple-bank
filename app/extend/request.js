@@ -10,4 +10,4 @@ module.exports = {
       return bearer[1];
     }
   },
-}
+};

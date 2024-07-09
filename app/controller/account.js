@@ -1,4 +1,4 @@
-const { Controller } = require("egg");
+const { Controller } = require('egg');
 const jwt = require('jsonwebtoken');
 
 module.exports = class AccountController extends Controller {
@@ -10,7 +10,7 @@ module.exports = class AccountController extends Controller {
         type: 'password',
         compare: 're-password',
       },
-    }
+    };
 
     const userData = ctx.request.body;
 
@@ -52,14 +52,14 @@ module.exports = class AccountController extends Controller {
     }
 
     const token = jwt.sign({
-      user: user.attribute('username')
-    }, process.env.JWT_SECRET,
+      user: user.attribute('username'),
+    }, process.env.JWT_SECRET
     );
 
     ctx.body = {
       balance: user.balance,
       token,
-    }
+    };
   }
 
   async recipes() {
@@ -69,11 +69,11 @@ module.exports = class AccountController extends Controller {
     const user = await ctx.model.User.findOne({ username: ctx.userName });
 
     if (!user) {
-      ctx.throwError(403, '未知的使用者', userName)
+      ctx.throwError(403, '未知的使用者', userName);
       return;
     }
 
-    let recipes = await ctx.model.Record
+    const recipes = await ctx.model.Record
       .find({ user: ctx.userName })
       .select(name => name !== 'user' && name !== 'id')
       .order('createdAt', 'desc');
@@ -91,4 +91,4 @@ module.exports = class AccountController extends Controller {
       ctx.body = { username: ctx.userName, balance };
     }
   }
-}
+};

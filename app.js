@@ -22,4 +22,4 @@ module.exports = class AppBootHook {
   async beforeClose() {
     await this.app.redis.disconnect();
   }
-}
+};

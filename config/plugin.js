@@ -7,8 +7,6 @@ module.exports = {
   orm: {
     enable: true,
     package: 'egg-orm',
-    database: 'simple-bank',
-    port: process.env.MYSQL_PORT,
   },
 
   validate: {
@@ -24,5 +22,5 @@ module.exports = {
   ejs: {
     enable: true,
     package: 'egg-view-ejs',
-  }
+  },
 };

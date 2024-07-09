@@ -5,7 +5,7 @@ const USERNAME = Symbol('Context#username');
 module.exports = {
   throwError(code = 400, msg = '伺服器錯誤', data) {
     this.status = code;
-    this.body = { msg }
+    this.body = { msg };
 
     this.app.logger.warn(`${code}: ${msg}` + (data ? ` - ${JSON.stringify(data, '', 2)}` : ''));
   },
@@ -32,5 +32,5 @@ module.exports = {
     }
 
     return this[USERNAME];
-  }
-}
+  },
+};

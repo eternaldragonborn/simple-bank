@@ -5,7 +5,7 @@ const userActionRule = {
     type: 'int',
     min: 1,
   },
-}
+};
 
 module.exports = class UserController extends Controller {
   async deposit() {
@@ -38,8 +38,4 @@ module.exports = class UserController extends Controller {
     await ctx.service.account.changeBalance(-actionData.amount);
     // ctx.logger.info(`user ${user.username} withdrew $${actionData.amount}`);
   }
-
-  async records() {
-
-  }
-}
+};

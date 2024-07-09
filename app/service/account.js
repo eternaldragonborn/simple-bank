@@ -33,7 +33,7 @@ class AccountService extends Service {
         await this.ctx.model.User.update(
           { username: this.ctx.userName },
           { balance },
-          { connection },
+          { connection }
         );
 
         await this.ctx.model.Record.create({
@@ -48,9 +48,9 @@ class AccountService extends Service {
       return;
     }
 
-    this.ctx.body = { balance: balance };
+    this.ctx.body = { balance };
     this.app.redis.set(this.ctx.userName, balance)
-      .catch((err) => {
+      .catch(err => {
         this.ctx.logger.warn(`update cache of user ${this.ctx.userName} failed\n` + err);
         this.app.redis.del(this.ctx.userName);
       });

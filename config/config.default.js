@@ -33,7 +33,7 @@ module.exports = appInfo => {
     },
     username: '',
     password: '',
-  }
+  };
 
   config.security = {
     csrf: {
@@ -42,7 +42,7 @@ module.exports = appInfo => {
   };
 
   config.logger = {
-    consoleLevel: "DEBUG",
+    consoleLevel: 'DEBUG',
   };
 
   // add your user config here
