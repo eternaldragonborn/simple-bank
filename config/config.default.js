@@ -25,6 +25,16 @@ module.exports = appInfo => {
     user: 'root',
   };
 
+  /** @type {import('redis').RedisClientOptions} */
+  config.redis = {
+    socket: {
+      host: 'localhost',
+      port: 6379,
+    },
+    username: '',
+    password: '',
+  }
+
   config.security = {
     csrf: {
       enable: false,
@@ -33,14 +43,6 @@ module.exports = appInfo => {
 
   config.logger = {
     consoleLevel: "DEBUG",
-  };
-
-  config.view = {
-    mapping: {
-      '.nj': 'nunjucks',
-      '.ejs': 'ejs',
-    },
-    defaultViewEngine: 'nunjucks',
   };
 
   // add your user config here

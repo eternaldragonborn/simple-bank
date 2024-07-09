@@ -16,7 +16,8 @@
     "egg-view-ejs": "^3.0.0",
     "egg-view-nunjucks": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.10.2"
+    "mysql2": "^3.10.2",
+    "redis": "^4.6.15"
   },
   "devDependencies": {
     "egg-bin": "6",

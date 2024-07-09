@@ -2,9 +2,6 @@ const jwt = require('jsonwebtoken');
 const TOKEN = Symbol('Context#token');
 const USERNAME = Symbol('Context#username');
 
-/**
- * @extends {import('egg').Context}
- */
 module.exports = {
   throwError(code = 400, msg = '伺服器錯誤', data) {
     this.status = code;
