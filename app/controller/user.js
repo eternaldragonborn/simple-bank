@@ -22,7 +22,7 @@ module.exports = class UserController extends Controller {
       return;
     }
 
-    await ctx.service.account.balanceChange(actionData.amount);
+    await ctx.service.account.changeBalance(actionData.amount);
     // ctx.logger.info(`user ${user.username} deposited $${actionData.amount}`);
   }
 
@@ -35,7 +35,7 @@ module.exports = class UserController extends Controller {
       return;
     }
 
-    await ctx.service.account.balanceChange(-actionData.amount);
+    await ctx.service.account.changeBalance(-actionData.amount);
     // ctx.logger.info(`user ${user.username} withdrew $${actionData.amount}`);
   }
 

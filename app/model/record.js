@@ -1,3 +1,4 @@
+/** @param {Egg.Application} app */
 module.exports = app => {
   const { Bone, DataTypes: { STRING, INTEGER, DATE } } = app.model;
 
