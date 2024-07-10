@@ -8,7 +8,7 @@ class AccountService extends Service {
     });
     this.ctx.logger.debug(user);
 
-    if (user) {
+    if (user && !await this.app.redis.hExists('balance', username)) {
       // write user balance to redis
       await this.cacheBalance(username, user.balance);
     }
@@ -26,35 +26,30 @@ class AccountService extends Service {
       return;
     }
 
-    balance = Number(balance) + amount;
-    if (balance < 0) {
+    if (balance + amount < 0) {
       // balance is not enough
       this.ctx.throwError(400, '餘額不足');
       return;
     }
 
     try {
-      await this.ctx.model.transaction(async ({ connection }) => {
-        await this.ctx.model.User.update(
-          { username: this.ctx.userName },
-          { balance },
-          { connection }
-        );
+      balance = await this.app.redis.hIncrBy('balance', this.ctx.userName, amount);
 
-        await this.ctx.model.Record.create({
-          user: this.ctx.userName,
-          amount,
-          balance,
-          createAt: Date.now(),
-        }, { connection });
-      });
+      // write record to redis
+      const record = {
+        user: this.ctx.userName,
+        amount,
+        balance,
+        createdAt: Date.now(),
+      };
+      await this.app.redis.rPush('record', JSON.stringify(record));
     } catch (err) {
       this.ctx.throwError(500, '資料更新失敗', err);
+      this.ctx.logger.warn(err);
       return;
     }
 
     this.ctx.body = { balance };
-    await this.cacheBalance(this.ctx.userName, balance);
   }
 
   /**
