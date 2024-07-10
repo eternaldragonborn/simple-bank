@@ -10,7 +10,7 @@ class AccountService extends Service {
 
     if (user) {
       // write user balance to redis
-      await this.app.redis.hSet('balance', username, user.balance);
+      await this.cacheBalance(username, user.balance);
     }
 
     return user;
@@ -26,7 +26,7 @@ class AccountService extends Service {
       return;
     }
 
-    balance += amount;
+    balance = Number(balance) + amount;
     if (balance < 0) {
       // balance is not enough
       this.ctx.throwError(400, '餘額不足');
@@ -54,11 +54,7 @@ class AccountService extends Service {
     }
 
     this.ctx.body = { balance };
-    this.app.redis.set(this.ctx.userName, balance)
-      .catch(err => {
-        this.ctx.logger.warn(`update cache of user ${this.ctx.userName} failed\n` + err);
-        this.app.redis.del(this.ctx.userName);
-      });
+    await this.cacheBalance(this.ctx.userName, balance);
   }
 
   /**
@@ -66,7 +62,6 @@ class AccountService extends Service {
    * @return {Promise<number | null>} user balance or null, if not found
   */
   async getBalance(username) {
-    // let balance = await this.app.redis.get(username);
     let balance = await this.app.redis.hGet('balance', username);
 
     // if user not cached
@@ -79,13 +74,28 @@ class AccountService extends Service {
       }
 
       balance = user.balance;
-      // await this.app.redis.set(username, balance);
-      await this.app.redis.hSet('balance', username, balance);
-    } else {
+      await this.cacheBalance(username, balance);
       balance = Number(balance);
     }
 
     return balance;
+  }
+
+  /**
+   *
+   * @param {string} username
+   * @param {number} amount
+   */
+  async cacheBalance(username, amount) {
+    return this.app.redis.hSet('balance', username, amount)
+      .then(res => {
+        this.ctx.logger.debug(`successfully update cache of user ${username}`);
+        return res;
+      })
+      .catch(err => {
+        this.ctx.logger.warn(`update cache of user ${username} failed\n` + err);
+        this.app.redis.hDel('balance', username);
+      });
   }
 }
 
