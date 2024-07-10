@@ -8,6 +8,11 @@ class AccountService extends Service {
     });
     this.ctx.logger.debug(user);
 
+    if (user) {
+      // write user balance to redis
+      await this.app.redis.hSet('balance', username, user.balance);
+    }
+
     return user;
   }
   /**
@@ -61,7 +66,8 @@ class AccountService extends Service {
    * @return {Promise<number | null>} user balance or null, if not found
   */
   async getBalance(username) {
-    let balance = await this.app.redis.get(username);
+    // let balance = await this.app.redis.get(username);
+    let balance = await this.app.redis.hGet('balance', username);
 
     // if user not cached
     if (!balance) {
@@ -73,7 +79,8 @@ class AccountService extends Service {
       }
 
       balance = user.balance;
-      await this.app.redis.set(username, balance);
+      // await this.app.redis.set(username, balance);
+      await this.app.redis.hSet('balance', username, balance);
     } else {
       balance = Number(balance);
     }
