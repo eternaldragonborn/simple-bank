@@ -5,12 +5,14 @@
 import 'egg';
 import ExportAccount = require('../../../app/controller/account');
 import ExportHome = require('../../../app/controller/home');
+import ExportTest = require('../../../app/controller/test');
 import ExportUser = require('../../../app/controller/user');
 
 declare module 'egg' {
   interface IController {
     account: ExportAccount;
     home: ExportHome;
+    test: ExportTest;
     user: ExportUser;
   }
 }
