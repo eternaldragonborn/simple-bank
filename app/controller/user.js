@@ -12,13 +12,8 @@ module.exports = class UserController extends Controller {
     const { ctx } = this;
     const actionData = ctx.request.body;
 
-    try {
-      ctx.validate(userActionRule);
-    } catch (err) {
-      // amount < 0
-      ctx.logger.error('validation failed\n' + JSON.stringify(actionData) + err);
-      ctx.status = 403;
-      ctx.body = { msg: '金額需大於0' };
+    if (actionData.amount <= 0) {
+      ctx.throwError(403, '金額須大於0');
       return;
     }
 
@@ -30,7 +25,7 @@ module.exports = class UserController extends Controller {
     const { ctx } = this;
     const actionData = ctx.request.body;
 
-    if (actionData.amount < 0) {
+    if (actionData.amount <= 0) {
       ctx.throwError(403, '金額須大於0');
       return;
     }

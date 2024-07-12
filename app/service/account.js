@@ -21,7 +21,7 @@ class AccountService extends Service {
    */
   async changeBalance(amount) {
     let balance = await this.getBalance(this.ctx.userName);
-    if (!balance) {
+    if (balance === null) {
       this.ctx.throwError(404, '未知的使用者', this.ctx.userName);
       return;
     }
@@ -70,6 +70,7 @@ class AccountService extends Service {
 
       balance = user.balance;
       await this.cacheBalance(username, balance);
+    } else {
       balance = Number(balance);
     }
 
