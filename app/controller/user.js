@@ -1,12 +1,5 @@
 const { Controller } = require('egg');
 
-const userActionRule = {
-  amount: {
-    type: 'int',
-    min: 1,
-  },
-};
-
 module.exports = class UserController extends Controller {
   async deposit() {
     const { ctx } = this;

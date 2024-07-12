@@ -42,7 +42,7 @@ class AccountService extends Service {
         balance,
         createdAt: Date.now(),
       };
-      await this.app.redis.rPush('record', JSON.stringify(record));
+      await this.app.redis.lPush('record', JSON.stringify(record));
     } catch (err) {
       this.ctx.throwError(500, '資料更新失敗', err);
       this.ctx.logger.warn(err);
@@ -92,6 +92,57 @@ class AccountService extends Service {
         this.ctx.logger.warn(`update cache of user ${username} failed\n` + err);
         this.app.redis.hDel('balance', username);
       });
+  }
+  /**
+   * @typedef {{
+   *  amount: number,
+   *  balance: number,
+   *  createdAt: number
+   * }} Record
+   */
+
+  /**
+   *
+   * @param {string} username
+   * @return {Promise<Record[] | null>}
+   */
+  async loadRecipes(username) {
+    // ? check if user exists
+    /** @type {Record[]} */
+    const recipes = [];
+
+    // load from redis
+    const cachedRecords = await this.app.redis.lRange('record', 0, -1);
+    if (cachedRecords.length !== 0) {
+      cachedRecords.forEach(record => {
+        record = JSON.parse(record);
+        if (record.user === username) {
+          recipes.push({
+            amount: record.amount,
+            balance: record.balance,
+            createdAt: record.createdAt,
+          });
+        }
+      });
+
+    }
+
+    // load from MySQL
+    const recipeRecords = await this.ctx.model.Record
+      .find({ user: username })
+      .select('amount', 'balance', 'createdAt')
+      .order('createdAt', 'desc');
+
+    const parsedRecipes = recipeRecords.map(record => {
+      return {
+        amount: record.amount,
+        balance: record.balance,
+        createdAt: record.createdAt.getTime(),
+      };
+    });
+    recipes.push(...parsedRecipes);
+
+    return recipes;
   }
 }
 

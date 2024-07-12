@@ -65,20 +65,12 @@ module.exports = class AccountController extends Controller {
   async recipes() {
     const { ctx } = this;
 
-    // TODO: refactor to service
-    const user = await ctx.model.User.findOne({ username: ctx.userName });
-
-    if (!user) {
-      ctx.throwError(403, '未知的使用者', ctx.userName);
-      return;
+    try {
+      const recipes = await ctx.service.account.loadRecipes(ctx.userName);
+      ctx.body = recipes;
+    } catch (err) {
+      ctx.throwError(500, '取得明細時發生錯誤', err);
     }
-
-    const recipes = await ctx.model.Record
-      .find({ user: ctx.userName })
-      .select(name => name !== 'user' && name !== 'id')
-      .order('createdAt', 'desc');
-    // ctx.logger.debug(recipes);
-    ctx.body = recipes;
   }
 
   async getBalance() {

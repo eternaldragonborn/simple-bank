@@ -48,7 +48,7 @@ module.exports = class SyncCache extends Subscription {
         this.app.logger.info(`synced ${recordCount} records & updated ${userCount} users`);
         // clear cached records
         // ? error handling when cleaning the cached records
-        await this.app.redis.lTrim('record', recordCount, -1);
+        await this.app.redis.lTrim('record', 0, -recordCount - 1);
       })
       .catch(err => {
         this.app.logger.error('sync cache failed', err);

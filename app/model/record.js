@@ -9,7 +9,7 @@ module.exports = app => {
       user: STRING,
       amount: INTEGER,
       balance: INTEGER,
-      createdAt: DATE,
+      createdAt: DATE(3),
     };
   }
 }
