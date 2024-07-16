@@ -1,6 +1,5 @@
 const REDIS = Symbol('Application#redis');
 
-/** @augments {Egg.Application} */
 module.exports = {
   /** @return {import('redis').RedisClientType} */
   get redis() {

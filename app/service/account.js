@@ -32,6 +32,7 @@ class AccountService extends Service {
       return;
     }
 
+    let cachedRecordCount;
     try {
       balance = await this.app.redis.hIncrBy('balance', this.ctx.userName, amount);
 
@@ -42,7 +43,7 @@ class AccountService extends Service {
         balance,
         createdAt: Date.now(),
       };
-      await this.app.redis.lPush('record', JSON.stringify(record));
+      cachedRecordCount = await this.app.redis.lPush('record', JSON.stringify(record));
     } catch (err) {
       this.ctx.throwError(500, '資料更新失敗', err);
       this.ctx.logger.warn(err);
@@ -50,6 +51,10 @@ class AccountService extends Service {
     }
 
     this.ctx.body = { balance };
+
+    if (cachedRecordCount > 10) {
+      this.app.runSchedule('sync_cache');
+    }
   }
 
   /**
@@ -141,6 +146,7 @@ class AccountService extends Service {
       };
     });
     recipes.push(...parsedRecipes);
+    this.ctx.logger.debug(`${recipes.length} records loaded`);
 
     return recipes;
   }

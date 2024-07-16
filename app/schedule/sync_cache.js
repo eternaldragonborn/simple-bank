@@ -5,13 +5,20 @@ module.exports = class SyncCache extends Subscription {
     return {
       interval: '1m',
       type: 'worker',
+      disable: true,
     };
   }
 
   async subscribe() {
-    const records = await this.ctx.app.redis.lRange('record', 0, -1);
+    if (!await this.app.redis.set('sync_lock', '1', { NX: true, EX: 3000 })) {
+      this.app.logger.debug('sync cache is already running');
+      return;
+    }
+
+    const records = await this.app.redis.lRange('record', 0, -1);
     if (!records || records.length === 0) {
       this.app.logger.debug('no records need to be synced');
+      await this.app.redis.del('sync_lock');
       return;
     }
 
@@ -30,12 +37,13 @@ module.exports = class SyncCache extends Subscription {
       const parsedBalance = Object.entries(userBalance)
         .map(([ user, balance ]) => {
           return `WHEN '${user}' THEN ${balance}`;
-        });
+        })
+        .join('\n');
 
       const userUpdateResult = await this.ctx.model
         .query(`UPDATE users
             SET balance = CASE username
-              ${parsedBalance.join('\n')}
+              ${parsedBalance}
             END
             WHERE username IN (${Object.keys(userBalance)
     .map(user => `'${user}'`)
@@ -52,6 +60,9 @@ module.exports = class SyncCache extends Subscription {
       })
       .catch(err => {
         this.app.logger.error('sync cache failed', err);
+      })
+      .finally(async () => {
+        await this.app.redis.del('sync_lock');
       });
   }
 };
