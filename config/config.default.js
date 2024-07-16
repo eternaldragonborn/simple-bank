@@ -25,14 +25,12 @@ module.exports = appInfo => {
     user: 'root',
   };
 
-  /** @type {import('redis').RedisClientOptions} */
+  /** @type {import('ioredis').RedisOptions} */
   config.redis = {
-    socket: {
-      host: 'localhost',
-      port: 6379,
-    },
-    username: '',
-    password: '',
+    host: 'localhost',
+    port: 6379,
+    username: null,
+    password: null,
   };
 
   config.security = {

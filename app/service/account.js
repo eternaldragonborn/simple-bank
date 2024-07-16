@@ -8,7 +8,7 @@ class AccountService extends Service {
     });
     this.ctx.logger.debug(user);
 
-    if (user && !await this.app.redis.hExists('balance', username)) {
+    if (user && !await this.app.redis.hexists('balance', username)) {
       // write user balance to redis
       await this.cacheBalance(username, user.balance);
     }
@@ -34,7 +34,7 @@ class AccountService extends Service {
 
     let cachedRecordCount;
     try {
-      balance = await this.app.redis.hIncrBy('balance', this.ctx.userName, amount);
+      balance = await this.app.redis.hincrby('balance', this.ctx.userName, amount);
 
       // write record to redis
       const record = {
@@ -43,7 +43,7 @@ class AccountService extends Service {
         balance,
         createdAt: Date.now(),
       };
-      cachedRecordCount = await this.app.redis.lPush('record', JSON.stringify(record));
+      cachedRecordCount = await this.app.redis.lpush('record', JSON.stringify(record));
     } catch (err) {
       this.ctx.throwError(500, '資料更新失敗', err);
       this.ctx.logger.warn(err);
@@ -62,7 +62,7 @@ class AccountService extends Service {
    * @return {Promise<number | null>} user balance or null, if not found
   */
   async getBalance(username) {
-    let balance = await this.app.redis.hGet('balance', username);
+    let balance = await this.app.redis.hget('balance', username);
 
     // if user not cached
     if (!balance) {
@@ -88,14 +88,14 @@ class AccountService extends Service {
    * @param {number} amount
    */
   async cacheBalance(username, amount) {
-    return this.app.redis.hSet('balance', username, amount)
+    return this.app.redis.hset('balance', username, amount)
       .then(res => {
         this.ctx.logger.debug(`successfully update cache of user ${username}`);
         return res;
       })
       .catch(err => {
         this.ctx.logger.warn(`update cache of user ${username} failed\n` + err);
-        this.app.redis.hDel('balance', username);
+        this.app.redis.hdel('balance', username);
       });
   }
   /**
@@ -117,7 +117,7 @@ class AccountService extends Service {
     const recipes = [];
 
     // load from redis
-    const cachedRecords = await this.app.redis.lRange('record', 0, -1);
+    const cachedRecords = await this.app.redis.lrange('record', 0, -1);
     if (cachedRecords.length !== 0) {
       cachedRecords.forEach(record => {
         record = JSON.parse(record);
